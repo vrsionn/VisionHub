@@ -29,6 +29,9 @@ local Window = Library:CreateWindow({
     local AutoRebirth = false
     local AutoSuperRebirth = false
     local AutoEquipBestDumbell = false
+    local AutoEquipTrail = false
+    local AutoEquipAura = false
+    local AutoDisablePopUps = false
     local selectedEggAmount = nil
     local selectedArea = nil
     local AutoHatch = false
@@ -43,6 +46,16 @@ local Window = Library:CreateWindow({
     local areasTable = {}
     for i, v in pairs(areas) do
         table.insert(areasTable, v.Name)
+    end
+    local trails = game:GetService("ReplicatedStorage").Trails:GetChildren()
+    local trailsTable = {}
+    for i, v in pairs(trails) do
+        table.insert(trailsTable, v.Name)
+    end
+    local auras = game:GetService("ReplicatedStorage").Auras:GetChildren()
+    local aurasTable = {}
+    for i, v in pairs(auras) do
+        table.insert(aurasTable, v.Name)
     end
 
 local Tabs = {
@@ -118,7 +131,7 @@ AutoFarmGroupBox:AddToggle('AutoDaily', {
             local args = {[1] = {["%"] = {[1] = {[1] = 10,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             local args = {[1] = {["%"] = {[1] = {[1] = 11,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             local args = {[1] = {["%"] = {[1] = {[1] = 12,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
-            task.wait(0.5)
+            task.wait(1)
         end
     end
 })
@@ -144,7 +157,7 @@ AutoFarmGroupBox:AddToggle('AutoDaily', {
             local args = {[1] = {["'"] = {[1] = {[1] = 10,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             local args = {[1] = {["'"] = {[1] = {[1] = 11,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             local args = {[1] = {["'"] = {[1] = {[1] = 12,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
-            task.wait(0.5)
+            task.wait(1)
         end
     end
 })
@@ -249,7 +262,7 @@ PetsGroupBox:AddToggle('AutoEquipBest', {
         print('[cb] AutoEquipBest was changed:', Value)
         while AutoEquipBest do
             local args = {[1] = {["\29"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
-            task.wait(0.2)
+            task.wait(1)
         end
     end
 })
@@ -264,7 +277,75 @@ PetsGroupBox:AddToggle('AutoEvolve', {
         print('[cb] AutoEvolve was changed:', Value)
         while AutoEvolve do
             local args = {[1] = {["\24"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
-            task.wait(0.2)
+            task.wait(1)
+        end
+    end
+})
+
+MiscGroupBox:AddDropdown('SelectedTrail', {
+	Values = trailsTable,
+	Default = "--",
+	Multi = false,
+
+	Text = 'Select Trail',
+	Tooltip = 'Trail to auto equip.',
+	DisabledTooltip = 'I am disabled!',
+
+	Searchable = true,
+
+	Callback = function(Value)
+		print('[cb] SelectedTrail got changed. New value:', Value)
+	end,
+
+	Disabled = false,
+	Visible = true,
+})
+
+MiscGroupBox:AddToggle('AutoEquipTrail', {
+    Text = 'Auto Equip Selected Trail',
+    Default = false,
+    Tooltip = 'Auto equips selected trail.',
+
+    Callback = function(Value)
+        AutoEquipTrail = Value
+        print('[cb] AutoEquipTrail was changed:', Value)
+        while AutoEquipTrail do
+            local args = {[1] = {["\5"] = {[1] = {[1] = Options.SelectedTrail.Value,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            task.wait(1)
+        end
+    end
+})
+
+MiscGroupBox:AddDropdown('SelectedAura', {
+	Values = aurasTable,
+	Default = "--",
+	Multi = false,
+
+	Text = 'Select Aura',
+	Tooltip = 'Aura to auto equip.',
+	DisabledTooltip = 'I am disabled!',
+
+	Searchable = true,
+
+	Callback = function(Value)
+		print('[cb] SelectedAura got changed. New value:', Value)
+	end,
+
+	Disabled = false,
+	Visible = true,
+})
+
+MiscGroupBox:AddToggle('AutoEquipAura', {
+    Text = 'Auto Equip Selected Aura',
+    Default = false,
+    Tooltip = 'Auto equips selected aura.',
+
+    Callback = function(Value)
+        AutoEquipAura = Value
+        print('[cb] AutoEquipAura was changed:', Value)
+        while AutoEquipAura do
+            local args = {[1] = {["\13"] = {[1] = {[1] = Options.SelectedAura.Value,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            task.wait(1)
         end
     end
 })
@@ -278,11 +359,35 @@ MiscGroupBox:AddToggle('AutoEquipBestDumbell', {
         AutoEquipBestDumbell = Value
         print('[cb] AutoEquipBestDumbell was changed:', Value)
         while AutoEquipBestDumbell do
-            local args = {[1] = {["\""] = {[1] = {[1] = "72000",["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))            
-            task.wait(0.2)
+            local args = {[1] = {["\""] = {[1] = {[1] = "72000",["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            task.wait(1)
         end
     end
 })
+
+MiscGroupBox:AddToggle('AutoDisablePopUps', {
+    Text = 'Auto Disables Pop Ups',
+    Default = false,
+    Tooltip = 'Auto disables annoying pop ups.',
+
+    Callback = function(Value)
+        AutoDisablePopUps = Value
+        print('[cb] AutoDisablePopUps was changed:', Value)
+
+        if AutoDisablePopUps then
+            task.spawn(function()
+                while AutoDisablePopUps do
+                    game:GetService("Players").LocalPlayer.PlayerGui.StatIncrease.Enabled = false
+                    task.wait()
+                end
+                game:GetService("Players").LocalPlayer.PlayerGui.StatIncrease.Enabled = true
+            end)
+        else
+            game:GetService("Players").LocalPlayer.PlayerGui.StatIncrease.Enabled = false
+        end
+    end
+})
+
 
 TeleportGroupBox:AddDropdown('TeleportArea', {
     Values = areasTable,
