@@ -37,7 +37,7 @@ local Window = Library:CreateWindow({
     local AutoHatch = false
     local AutoEquipBest = false
     local AutoEvolve = false
-    local eggs = game:GetService("ReplicatedStorage").Config.EggPrices:GetChildren()
+    local eggs = game:GetService("ReplicatedStorage").Pets:GetChildren()
     local eggsTable = {}
     for i, v in pairs(eggs) do
         table.insert(eggsTable, v.Name)
