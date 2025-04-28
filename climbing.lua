@@ -15,7 +15,7 @@ local Window = Library:CreateWindow({
     Center = true,
     AutoShow = true,
     Resizable = true,
-    ShowCustomCursor = false,
+	ShowCustomCursor = false,
     NotifySide = "Left",
     TabPadding = 8,
     MenuFadeTime = 0.2
@@ -37,7 +37,7 @@ local Window = Library:CreateWindow({
     local AutoHatch = false
     local AutoEquipBest = false
     local AutoEvolve = false
-    local eggs = game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()[80]:GetChildren()
+    local eggs = game:GetService("ReplicatedStorage").Config.EggPrices:GetChildren()
     local eggsTable = {}
     for i, v in pairs(eggs) do
         table.insert(eggsTable, v.Name)
@@ -359,7 +359,7 @@ MiscGroupBox:AddToggle('AutoEquipBestDumbell', {
         AutoEquipBestDumbell = Value
         print('[cb] AutoEquipBestDumbell was changed:', Value)
         while AutoEquipBestDumbell do
-            local args = {[1] = {["\""] = {[1] = {[1] = "72000",["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {["\""] = {[1] = {[1] = "OP Dumbbell x130k",["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait(1)
         end
     end
@@ -378,12 +378,15 @@ MiscGroupBox:AddToggle('AutoDisablePopUps', {
             task.spawn(function()
                 while AutoDisablePopUps do
                     game:GetService("Players").LocalPlayer.PlayerGui.StatIncrease.Enabled = false
+                    game:GetService("Players").LocalPlayer.PlayerGui.ScreenEffects.Enabled = false
                     task.wait()
                 end
                 game:GetService("Players").LocalPlayer.PlayerGui.StatIncrease.Enabled = true
+                game:GetService("Players").LocalPlayer.PlayerGui.ScreenEffects.Enabled = true
             end)
         else
             game:GetService("Players").LocalPlayer.PlayerGui.StatIncrease.Enabled = false
+            game:GetService("Players").LocalPlayer.PlayerGui.ScreenEffects.Enabled = false
         end
     end
 })
