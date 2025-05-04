@@ -89,7 +89,7 @@ AutoFarmGroupBox:AddToggle('AutoTrain', {
         AutoTrain = Value
         print('[cb] AutoTrain was changed:', Value)
         while AutoTrain do
-            local args = {[1] = {["!"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {["\11"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait(0.1)
         end
     end
@@ -171,7 +171,7 @@ AutoFarmGroupBox:AddToggle('AutoOPPet', {
         AutoOPPet = Value
         print('[cb] AutoOPPet was changed:', Value)
         while AutoOPPet do
-            local args = {[1] = {["\16"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))            
+            local args = {[1] = {["\16"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait(1)
         end
     end
@@ -186,7 +186,7 @@ AutoBuyGroupBox:AddToggle('AutoRebirth', {
         AutoRebirth = Value
         print('[cb] AutoRebirth was changed:', Value)
         while AutoRebirth do
-            local args = {[1] = {["\21"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {["\24"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait(0.1)
         end
     end
@@ -201,7 +201,7 @@ AutoBuyGroupBox:AddToggle('AutoSuperRebirth', {
         AutoSuperRebirth = Value
         print('[cb] AutoSuperRebirth was changed:', Value)
         while AutoSuperRebirth do
-            local args = {[1] = {["\22"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {["\25"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait(0.1)
         end
     end
@@ -246,7 +246,7 @@ PetsGroupBox:AddToggle('AutoHatch', {
         AutoHatch = Value
         print('[cb] AutoHatch was changed:', Value)
         while AutoHatch do
-            local args = {[1] = {},[2] = {[" "] = {[1] = {[1] = "\4",[2] = Options.Egg.Value,[3] = tonumber(Options.EggAmount.Value),}}}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {},[2] = {["#"] = {[1] = {[1] = "\1",[2] = Options.Egg.Value,[3] = tonumber(Options.EggAmount.Value),["n"] = 3}}}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait()
         end
     end
@@ -261,7 +261,7 @@ PetsGroupBox:AddToggle('AutoEquipBest', {
         AutoEquipBest = Value
         print('[cb] AutoEquipBest was changed:', Value)
         while AutoEquipBest do
-            local args = {[1] = {["\29"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {[" "] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))            
             task.wait(1)
         end
     end
@@ -276,7 +276,7 @@ PetsGroupBox:AddToggle('AutoEvolve', {
         AutoEvolve = Value
         print('[cb] AutoEvolve was changed:', Value)
         while AutoEvolve do
-            local args = {[1] = {["\24"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {["\27"] = {[1] = {["n"] = 0}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))            
             task.wait(1)
         end
     end
@@ -344,7 +344,7 @@ MiscGroupBox:AddToggle('AutoEquipAura', {
         AutoEquipAura = Value
         print('[cb] AutoEquipAura was changed:', Value)
         while AutoEquipAura do
-            local args = {[1] = {["\13"] = {[1] = {[1] = Options.SelectedAura.Value,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {["\16"] = {[1] = {[1] = Options.SelectedAura.Value,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait(1)
         end
     end
@@ -359,7 +359,7 @@ MiscGroupBox:AddToggle('AutoEquipBestDumbell', {
         AutoEquipBestDumbell = Value
         print('[cb] AutoEquipBestDumbell was changed:', Value)
         while AutoEquipBestDumbell do
-            local args = {[1] = {["\""] = {[1] = {[1] = "OP Dumbbell x130k",["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            local args = {[1] = {["\12"] = {[1] = {[1] = "OP Dumbbell x130k",["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
             task.wait(1)
         end
     end
