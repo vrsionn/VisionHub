@@ -27,11 +27,6 @@ local dice = game:GetService("ReplicatedStorage").Assets.Minigames.Dice:GetChild
     for i, v in pairs(dice) do
         table.insert(diceTable, v.Name)
     end
-local difficulty = game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.Minigame.Frame.Main.Buttons:GetChildren()
-    local difficultyTable = {}
-    for i, v in pairs(difficulty) do
-        table.insert(difficultyTable, v.Name)
-    end
 
 local Tabs = {
     Info = Window:CreateTab{ Title = "Info", Icon = "rbxassetid://81233184473110" },
@@ -84,7 +79,7 @@ end)
 local selectedDifficultyDropdown = Tabs.Main:CreateDropdown("selectedDifficulty", {
     Title = "Difficulty To Use",
     Description = "which difficulty to use for auto minigames (im not making a separate diffulty for each idc)",
-    Values = difficultyTable,
+    Values = {"Easy","Medium","Hard","Insane"},
     Multi = false,
     Default = {"Easy"},
 })
