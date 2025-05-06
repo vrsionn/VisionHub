@@ -19,7 +19,8 @@ local selectedDifficulty = nil
 local AutoRollDice = false
 local AutoPetMatch = false
 local AutoCartEscape = false
-local AutoRobotClaw = false
+local AutoStartRobotClaw = false
+local AutoPlayRobotClaw = false
 local AutoGameEgg = false
 local dice = game:GetService("ReplicatedStorage").Assets.Minigames.Dice:GetChildren()
     local diceTable = {}
@@ -103,7 +104,7 @@ AutoPetMatchToggle:OnChanged(function()
     while AutoPetMatch do
         task.wait(1)
         local args = {[1] = "SkipMinigameCooldown",[2] = "Pet Match"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(1)
+        task.wait(3)
         local args = {[1] = "StartMinigame",[2] = "Pet Match",[3] = selectedDifficultyDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
         task.wait(1)
         local args = {[1] = "FinishMinigame"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
@@ -142,20 +143,38 @@ AutoCartEscapeToggle:OnChanged(function()
         end
 end)
 
-local AutoRobotClawToggle = Tabs.Main:CreateToggle("AutoRobotClaw", {
-    Title = "Auto Robot Claw",
+local AutoStartRobotClawToggle = Tabs.Main:CreateToggle("AutoStartRobotClaw", {
+    Title = "Auto START Robot Claw",
     Default = false,
 })
 
-AutoRobotClawToggle:OnChanged(function()
-    print("AutoRobotClawToggle changed:", Options.AutoRobotClaw.Value)
-    AutoRobotClaw = Options.AutoRobotClaw.Value
-    while AutoRobotClaw do
-        task.wait(1)
+AutoStartRobotClawToggle:OnChanged(function()
+    print("AutoRobotClawToggle changed:", Options.AutoStartRobotClaw.Value)
+    AutoStartRobotClaw = Options.AutoStartRobotClaw.Value
+    while AutoStartRobotClaw do
+        task.wait(2)
         local args = {[1] = "SkipMinigameCooldown",[2] = "Robot Claw"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(1)
+        task.wait(2)
         local args = {[1] = "StartMinigame",[2] = "Robot Claw",[3] = selectedDifficultyDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
         task.wait(0.25)
+        for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:GetChildren()) do
+            if v.Name == "Prompt" then
+             v.Visible = false
+         end
+     end
+        task.wait(0.25)
+    end
+end)
+
+local AutoPlayRobotClawToggle = Tabs.Main:CreateToggle("AutoPlayRobotClaw", {
+    Title = "Auto PLAY Robot Claw",
+    Default = false,
+})
+
+AutoPlayRobotClawToggle:OnChanged(function()
+    print("AutoRobotClawToggle changed:", Options.AutoPlayRobotClaw.Value)
+    AutoPlayRobotClaw = Options.AutoPlayRobotClaw.Value
+    while AutoPlayRobotClaw do
         for _, item in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui"):GetChildren()) do
             if item:IsA("Instance") and item.Name:match("^ClawItem") then
                 local cleanId = item.Name:gsub("^ClawItem", "")
@@ -163,11 +182,6 @@ AutoRobotClawToggle:OnChanged(function()
                 task.wait(0.25)
             end
         end
-        for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:GetChildren()) do
-            if v.Name == "Prompt" then
-             v.Visible = false
-         end
-     end
         task.wait(0.25)
     end
 end)
