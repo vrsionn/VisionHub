@@ -70,7 +70,7 @@ AutoRollDiceToggle:OnChanged(function()
     AutoRollDice = Options.AutoRollDice.Value
     while AutoRollDice do
         task.wait(1)
-        local args = {[1] = "RollDice",[2] = selectedDiceDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Function"):InvokeServer(unpack(args))        
+        local args = {[1] = "RollDice",[2] = selectedDiceDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Function"):InvokeServer(unpack(args))
         task.wait(1)
         local args = {[1] = "ClaimTile"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
     end
@@ -199,8 +199,8 @@ SaveManager:SetLibrary(Library)
 InterfaceManager:SetLibrary(Library)
 SaveManager:IgnoreThemeSettings()
 SaveManager:SetIgnoreIndexes{}
-InterfaceManager:SetFolder("FluentScriptHub")
-SaveManager:SetFolder("FluentScriptHub/specific-game")
+InterfaceManager:SetFolder("VisionHub")
+SaveManager:SetFolder("VisionHub/BGSI")
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 Window:SelectTab(1)
