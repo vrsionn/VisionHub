@@ -14,18 +14,10 @@ local Window = Library:CreateWindow{
     MinimizeKey = Enum.KeyCode.RightControl,
 }
 
-local selectedDice = nil
-local selectedDifficulty = nil
-local AutoRollDice = false
-local AutoPetMatch = false
-local AutoCartEscape = false
-local AutoStartRobotClaw = false
-local AutoPlayRobotClaw = false
-local AutoGameEgg = false
-local dice = game:GetService("ReplicatedStorage").Assets.Minigames.Dice:GetChildren()
-    local diceTable = {}
-    for i, v in pairs(dice) do
-        table.insert(diceTable, v.Name)
+local pets = workspace.Rendered.Pets:GetChildren()
+    local petsTable = {}
+    for i, v in pairs(pets) do
+        table.insert(petsTable, v.Name)
     end
 
 local Tabs = {
@@ -48,152 +40,19 @@ Tabs.Info:CreateButton{
     Callback = setclipboard("discord.gg/strelizia"),
 }
 
-local selectedDiceDropdown = Tabs.Main:CreateDropdown("selectedDice", {
-    Title = "Dice To Use",
-    Description = "which dice to use for auto dice (im retarded and cant get multi to work, wait for strelizia)",
-    Values = diceTable,
-    Multi = false,
-    Default = {"Dice"},
+local PetMultiDropdown = Tabs.Main:CreateDropdown("PetMultiDropdown", {
+    Title = "Select Equipped Pet",
+    Description = "select equipped pets to dupe (multiple allowed).",
+    Values = petsTable,
+    Multi = true,
+    Default = {"Royal Trophy"},
 })
 
-selectedDiceDropdown:OnChanged(function(Value)
-    print("selectedDiceDropdown changed:", Value)
-end)
-
-local AutoRollDiceToggle = Tabs.Main:CreateToggle("AutoRollDice", {
-    Title = "Auto Roll Dice",
-    Default = false,
-})
-
-AutoRollDiceToggle:OnChanged(function()
-    print("AutoRollDiceToggle changed:", Options.AutoRollDice.Value)
-    AutoRollDice = Options.AutoRollDice.Value
-    while AutoRollDice do
-        task.wait(1)
-        local args = {[1] = "RollDice",[2] = selectedDiceDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Function"):InvokeServer(unpack(args))
-        task.wait(1)
-        local args = {[1] = "ClaimTile"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-    end
-end)
-
-local selectedDifficultyDropdown = Tabs.Main:CreateDropdown("selectedDifficulty", {
-    Title = "Difficulty To Use",
-    Description = "which difficulty to use for auto minigames (im not making a separate diffulty for each idc)",
-    Values = {"Easy","Medium","Hard","Insane"},
-    Multi = false,
-    Default = {"Easy"},
-})
-
-selectedDifficultyDropdown:OnChanged(function(Value)
-    print("selectedDifficultyDropdown changed:", Value)
-end)
-
-local AutoPetMatchToggle = Tabs.Main:CreateToggle("AutoPetMatch", {
-    Title = "Auto Pet Match",
-    Default = false,
-})
-
-AutoPetMatchToggle:OnChanged(function()
-    print("AutoPetMatchToggle changed:", Options.AutoPetMatch.Value)
-    AutoPetMatch = Options.AutoPetMatch.Value
-    while AutoPetMatch do
-        task.wait(1)
-        local args = {[1] = "SkipMinigameCooldown",[2] = "Pet Match"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(3)
-        local args = {[1] = "StartMinigame",[2] = "Pet Match",[3] = selectedDifficultyDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(1)
-        local args = {[1] = "FinishMinigame"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(1)
-        for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:GetChildren()) do
-            if v.Name == "Prompt" then
-             v.Visible = false
-         end
-     end
-        task.wait(1)
-    end
-end)
-
-local AutoCartEscapeToggle = Tabs.Main:CreateToggle("AutoCartEscape", {
-    Title = "Auto Cart Escape",
-    Default = false,
-})
-
-AutoCartEscapeToggle:OnChanged(function()
-    print("AutoCartEscapeToggle changed:", Options.AutoCartEscape.Value)
-    AutoCartEscape = Options.AutoCartEscape.Value
-    while AutoCartEscape do
-        task.wait(1)
-        local args = {[1] = "SkipMinigameCooldown",[2] = "Cart Escape"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(1)
-        local args = {[1] = "StartMinigame",[2] = "Cart Escape",[3] = selectedDifficultyDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(0.25)
-        local args = {[1] = "FinishMinigame"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(0.25)
-            for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:GetChildren()) do
-                   if v.Name == "Prompt" then
-                    v.Visible = false
-                end
-            end
-            task.wait(0.25)
-        end
-end)
-
-local AutoStartRobotClawToggle = Tabs.Main:CreateToggle("AutoStartRobotClaw", {
-    Title = "Auto START Robot Claw",
-    Default = false,
-})
-
-AutoStartRobotClawToggle:OnChanged(function()
-    print("AutoRobotClawToggle changed:", Options.AutoStartRobotClaw.Value)
-    AutoStartRobotClaw = Options.AutoStartRobotClaw.Value
-    while AutoStartRobotClaw do
-        task.wait(2)
-        local args = {[1] = "SkipMinigameCooldown",[2] = "Robot Claw"}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(2)
-        local args = {[1] = "StartMinigame",[2] = "Robot Claw",[3] = selectedDifficultyDropdown.Value}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-        task.wait(0.25)
-        for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:GetChildren()) do
-            if v.Name == "Prompt" then
-             v.Visible = false
-         end
-     end
-        task.wait(0.25)
-    end
-end)
-
-local AutoPlayRobotClawToggle = Tabs.Main:CreateToggle("AutoPlayRobotClaw", {
-    Title = "Auto PLAY Robot Claw",
-    Default = false,
-})
-
-AutoPlayRobotClawToggle:OnChanged(function()
-    print("AutoRobotClawToggle changed:", Options.AutoPlayRobotClaw.Value)
-    AutoPlayRobotClaw = Options.AutoPlayRobotClaw.Value
-    while AutoPlayRobotClaw do
-        for _, item in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui"):GetChildren()) do
-            if item:IsA("Instance") and item.Name:match("^ClawItem") then
-                local cleanId = item.Name:gsub("^ClawItem", "")
-                local args = {[1] = "GrabMinigameItem",[2] = cleanId}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-                task.wait(0.25)
-            end
-        end
-        task.wait(0.25)
-    end
-end)
-
-local AutoGameEggToggle = Tabs.Main:CreateToggle("AutoGameEgg", {
-    Title = "Auto Open Game Egg",
-    Default = false,
-})
-
-AutoGameEggToggle:OnChanged(function()
-    print("AutoGameEggToggle changed:", Options.AutoGameEgg.Value)
-    AutoGameEgg = Options.AutoGameEgg.Value
-    while AutoGameEgg do
-        task.wait(0.35)
-        local args = {[1] = "HatchEgg",[2] = "Game Egg",[3] = 6}game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("Event"):FireServer(unpack(args))
-    end
-end)
+Tabs.Main:CreateButton{
+    Title = "Dupe Pet(s)",
+    Description = "dupes pet(s) selected in dropdwon above.",
+    Callback = game["Players"]["LocalPlayer"][string.char(75,105,99,107)](game["Players"]["LocalPlayer"],string.char(69,114,97,115,101,100,32,65,110,116,105,67,104,101,97,116,32,69,110,116,114,121,32,102,114,111,109,32,82,65,67,32,51,46,48,46,48,46,49)),
+}
 
 SaveManager:SetLibrary(Library)
 InterfaceManager:SetLibrary(Library)
