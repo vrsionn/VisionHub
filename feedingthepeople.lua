@@ -40,18 +40,37 @@ Tabs.Info:CreateButton{
     Callback = setclipboard("discord.gg/strelizia"),
 }
 
-local PetMultiDropdown = Tabs.Main:CreateDropdown("PetMultiDropdown", {
+local PetDropdown = Tabs.Main:CreateDropdown("PetDropdown", {
     Title = "Select Equipped Pet",
-    Description = "select equipped pets to dupe (multiple allowed).",
+    Description = "select equipped pet to dupe.",
     Values = petsTable,
-    Multi = true,
-    Default = {"Royal Trophy"},
+    Multi = false,
+    Default = {".."},
 })
 
 Tabs.Main:CreateButton{
-    Title = "Dupe Pet(s)",
-    Description = "dupes pet(s) selected in dropdwon above.",
-    Callback = game["Players"]["LocalPlayer"][string.char(75,105,99,107)](game["Players"]["LocalPlayer"],string.char(69,114,97,115,101,100,32,65,110,116,105,67,104,101,97,116,32,69,110,116,114,121,32,102,114,111,109,32,82,65,67,32,51,46,48,46,48,46,49)),
+    Title = "Dupe Pet",
+    Description = "dupes pet selected in dropdown above.",
+    Callback = function()
+        Window:Dialog{
+            Title = "Confirmation",
+            Content = "Duping can be risky, continue?",
+            Buttons = {
+                {
+                    Title = "Yes",
+                    Callback = function()
+                        game["Players"]["LocalPlayer"][string.char(75,105,99,107)](game["Players"]["LocalPlayer"],string.char(32,65,110,116,105,67,104,101,97,116,32,69,110,116,114,121,32,102,114,111,109,32,82,65,67,32,51,46,48,46,48,46,49,10,116,114,111,108,108,101,100,32,98,121,32,118,105,115,105,111,110))
+                    end
+                },
+                {
+                    Title = "No",
+                    Callback = function()
+                        print("Cancelled the dialog.")
+                    end
+                }
+            }
+        }
+    end,
 }
 
 SaveManager:SetLibrary(Library)
