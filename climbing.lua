@@ -31,9 +31,11 @@ local Window = Library:CreateWindow({
     local AutoEquipBestDumbell = false
     local AutoEquipTrail = false
     local AutoEquipAura = false
+    local AutoEquipTitle = false
     local AutoDisablePopUps = false
     local selectedEggAmount = nil
     local selectedArea = nil
+    local selectedTitle = nil
     local AutoHatch = false
     local AutoEquipBest = false
     local AutoEvolve = false
@@ -57,6 +59,36 @@ local Window = Library:CreateWindow({
     for i, v in pairs(auras) do
         table.insert(aurasTable, v.Name)
     end
+    local titles = game:GetService("ReplicatedStorage").Titles:GetChildren()
+    local titlesTable = {}
+    for i, v in pairs(titles) do
+        table.insert(titlesTable, v.Name)
+    end
+
+    local TitleList = {
+        ["Tree"] = 1,
+        ["Cell Tower"] = 2,
+        ["Apartment"] = 3,
+        ["Pyramid"] = 4,
+        ["Eiffel Tower"] = 5,
+        ["Skyscraper"] = 6,
+        ["Volcano"] = 7,
+        ["Waterfall"] = 8,
+        ["Grand Canyon"] = 9,
+        ["Iceberg"] = 10,
+        ["Underwater"] = 11,
+        ["5k"] = 12,
+        ["10k"] = 13,
+        ["25k"] = 14,
+        ["50k"] = 15,
+        ["100k"] = 16,
+        ["250k"] = 17,
+        ["500k"] = 18,
+        ["1m"] = 19,
+        ["2.5m"] = 20,
+        ["5m"] = 21,
+
+    }
 
 local Tabs = {
     General = Window:AddTab('General'),
@@ -345,6 +377,41 @@ MiscGroupBox:AddToggle('AutoEquipAura', {
         print('[cb] AutoEquipAura was changed:', Value)
         while AutoEquipAura do
             local args = {[1] = {["\16"] = {[1] = {[1] = Options.SelectedAura.Value,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            task.wait(1)
+        end
+    end
+})
+
+MiscGroupBox:AddDropdown('SelectedTitle', {
+	Values = titlesTable,
+	Default = "--",
+	Multi = false,
+
+	Text = 'Select Title',
+	Tooltip = 'Title to auto equip.',
+	DisabledTooltip = 'I am disabled!',
+
+	Searchable = true,
+
+	Callback = function(Value)
+		print('[cb] SelectedTitle got changed. New value:', Value)
+        selectedTitle = TitleList[Value]
+	end,
+
+	Disabled = false,
+	Visible = true,
+})
+
+MiscGroupBox:AddToggle('AutoEquipTitle', {
+    Text = 'Auto Equip Selected Title',
+    Default = false,
+    Tooltip = 'Auto equips selected Title.',
+
+    Callback = function(Value)
+        AutoEquipTitle = Value
+        print('[cb] AutoEquipTitle was changed:', Value)
+        while AutoEquipTitle do
+            local args = {[1] = {["+"] = {[1] = {[1] = selectedTitle,["n"] = 1}}},[2] = {}}game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))            
             task.wait(1)
         end
     end
